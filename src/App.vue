@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <h1>App</h1>
-    <Red />
+    <Header />
+    <router-view>
+      <Home />
+      <Red />
+    </router-view>
   </div>
 </template>
 
 <script>
+import Header from "@/components/Header";
+import Home from "@/views/Home";
 import Red from "@/views/Red";
+
 export default {
   name: "app",
   components: {
-    Red
-  }
+    Home,
+    Header,
+    Red,
+  },
 };
 </script>
 
