@@ -1,25 +1,30 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import LightView from '@/views/LightView.vue';
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: 'Home',
-        component: () => import('../views/RedView.vue'),
+        component: LightView,
+        props: { light: 'green', startTime: 15 },
     },
     {
         path: '/red',
         name: 'Red',
-        component: () => import('../views/RedView.vue'),
+        component: LightView,
+        props: { light: 'red', startTime: 10 },
     },
     {
         path: '/yellow',
         name: 'Yellow',
-        component: () => import('../views/YellowView.vue'),
+        component: LightView,
+        props: { light: 'yellow', startTime: 3 },
     },
     {
         path: '/green',
         name: 'Green',
-        component: () => import('../views/GreenView.vue'),
+        component: LightView,
+        props: { light: 'green', startTime: 15 },
     },
 ];
 
