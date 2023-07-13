@@ -1,4 +1,4 @@
-# traffic_signal
+# traffic_light
 
 ## Project setup
 ```
