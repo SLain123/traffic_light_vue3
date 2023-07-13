@@ -27,17 +27,15 @@ export default defineComponent({
         ['switch-light']: (val: FlashType) => val === 'off' || val === 'on',
     },
 
-    computed: {
-        nextTime() {
-            if (this.nextLight === 'yellow') return 3;
-            if (this.nextLight === 'red') return 10;
-            return 15;
-        },
-    },
-
     methods: {
         nextTick() {
-            this.currentTime > 0 && (this.currentTime -= 0.5);
+            if (this.currentTime > 0) {
+                localStorage.setItem(
+                    'currentTime',
+                    String(this.currentTime - 0.5),
+                );
+                this.currentTime -= 0.5;
+            }
         },
 
         changeLight() {
@@ -55,6 +53,21 @@ export default defineComponent({
                 this.$emit('switch-light', 'on');
             }
         },
+
+        getDataFromLS() {
+            const currentTime = localStorage.getItem('currentTime');
+            currentTime &&
+                +currentTime > 0 &&
+                (this.currentTime = +currentTime);
+        },
+    },
+
+    computed: {
+        nextTime() {
+            if (this.nextLight === 'yellow') return 3;
+            if (this.nextLight === 'red') return 10;
+            return 15;
+        },
     },
 
     watch: {
@@ -62,6 +75,10 @@ export default defineComponent({
             this.changeLight();
             this.switchLight();
         },
+    },
+
+    created() {
+        this.getDataFromLS();
     },
 
     mounted() {

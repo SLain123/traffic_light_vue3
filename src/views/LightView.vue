@@ -2,8 +2,8 @@
     <div class="container">
         <img
             :src="require(`../assets/${offLight ? 'off' : currentLight}.jpg`)"
-            :title="light"
-            :alt="light"
+            :title="currentLight"
+            :alt="currentLight"
             class="light_img"
         />
         <traffic-timer
@@ -23,6 +23,9 @@ import { LightType, FlashType } from '@/types/LightTypes';
 
 export default defineComponent({
     name: 'LightView',
+    components: {
+        TrafficTimer,
+    },
 
     data() {
         return {
@@ -30,10 +33,6 @@ export default defineComponent({
             currentLight: this.light as LightType,
             offLight: false,
         };
-    },
-
-    components: {
-        TrafficTimer,
     },
 
     props: {
@@ -45,24 +44,40 @@ export default defineComponent({
         changeLight() {
             const nextLight = this.nextLight;
             this.prevLight = this.currentLight;
+            localStorage.setItem('prevLight', this.currentLight);
             this.currentLight = nextLight;
+
             this.$router.push(`/${nextLight}`);
         },
 
         switchLight(mode: FlashType) {
             mode === 'off' ? (this.offLight = true) : (this.offLight = false);
         },
+
+        getDataFromLS() {
+            const prevLight = localStorage.getItem(
+                'prevLight',
+            ) as LightType | null;
+            prevLight && (this.prevLight = prevLight);
+        },
     },
 
     computed: {
         nextLight() {
-            if (this.light === 'green' || this.light === 'red') {
+            if (this.currentLight === 'green' || this.currentLight === 'red') {
                 return 'yellow';
-            } else if (this.light === 'yellow' && this.prevLight === 'red') {
+            } else if (
+                this.currentLight === 'yellow' &&
+                this.prevLight === 'red'
+            ) {
                 return 'green';
             }
             return 'red';
         },
+    },
+
+    created() {
+        this.getDataFromLS();
     },
 });
 </script>
