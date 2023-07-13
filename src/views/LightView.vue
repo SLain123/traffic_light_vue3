@@ -1,7 +1,8 @@
 <template>
     <div class="container">
+        <p class="title">Realised on Vue v3/2023</p>
         <img
-            :src="require(`../assets/${offLight ? 'off' : currentLight}.jpg`)"
+            :src="require(`../assets/${offLight ? 'off' : currentLight}.png`)"
             :title="currentLight"
             :alt="currentLight"
             class="light_img"
@@ -86,7 +87,15 @@ export default defineComponent({
 .container {
     width: 100%;
     height: 100vh;
-    background-color: grey;
+    background-image: url('../assets/back.jpg');
+}
+
+.title {
+    position: absolute;
+    color: white;
+    margin: 8px 4px;
+    font-size: 14px;
+    letter-spacing: 0.8px;
 }
 
 .light_img {

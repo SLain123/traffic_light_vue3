@@ -1,11 +1,11 @@
 <template>
-    <div class="timer_container">{{ currentTime }}</div>
+    <div class="timer_container">{{ currentTime.toFixed(0) }}</div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import { LightType, FlashType } from '@/types/LightTypes';
+import { LightType, FlashType, LIGHT_TIME } from '@/types/LightTypes';
 
 export default defineComponent({
     name: 'TrafficTimer',
@@ -56,17 +56,22 @@ export default defineComponent({
 
         getDataFromLS() {
             const currentTime = localStorage.getItem('currentTime');
-            currentTime &&
-                +currentTime > 0 &&
+            const currentLight = this.$route.name as
+                | LightType
+                | undefined
+                | null;
+           
+            currentTime && currentLight &&
+                +currentTime < LIGHT_TIME[currentLight] &&
                 (this.currentTime = +currentTime);
         },
     },
 
     computed: {
         nextTime() {
-            if (this.nextLight === 'yellow') return 3;
-            if (this.nextLight === 'red') return 10;
-            return 15;
+            if (this.nextLight === 'yellow') return LIGHT_TIME.yellow;
+            if (this.nextLight === 'red') return LIGHT_TIME.red;
+            return LIGHT_TIME.green;
         },
     },
 
@@ -97,7 +102,17 @@ export default defineComponent({
 .timer_container {
     position: absolute;
     bottom: 0;
-    left: 50%;
-    transform: translate(-50%);
+    right: 0;
+    width: 120px;
+    height: 120px;
+    background-color: rgba(128, 128, 128, 0.75);
+    border-radius: 100%;
+    border: 4px white double;
+    margin: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 36px;
 }
 </style>

@@ -4,25 +4,25 @@ import LightView from '@/views/LightView.vue';
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
-        name: 'Home',
+        name: 'home',
         component: LightView,
         props: { light: 'green', startTime: 15 },
     },
     {
         path: '/red',
-        name: 'Red',
+        name: 'red',
         component: LightView,
         props: { light: 'red', startTime: 10 },
     },
     {
         path: '/yellow',
-        name: 'Yellow',
+        name: 'yellow',
         component: LightView,
         props: { light: 'yellow', startTime: 3 },
     },
     {
         path: '/green',
-        name: 'Green',
+        name: 'green',
         component: LightView,
         props: { light: 'green', startTime: 15 },
     },
